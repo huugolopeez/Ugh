@@ -8,6 +8,7 @@ import 'package:flame/game.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
+import '../bodies/TierraBody.dart';
 import '../players/EmberPlayer.dart';
 import '../players/JetPlayer.dart';
 
@@ -36,6 +37,18 @@ class IughGame extends Forge2DGame with
     cameraComponent = CameraComponent(world: world);
     cameraComponent.viewfinder.anchor = Anchor.topLeft;
     addAll([cameraComponent, world]);
+
+    mapComponent=await TiledComponent.load('mapa1.tmx', Vector2(32*wScale,32*hScale));
+    world.add(mapComponent);
+
+    ObjectGroup? tierras=mapComponent.tileMap.getLayer<ObjectGroup>("tierra");
+
+    for(final tiledObjectTierra in tierras!.objects){
+      TierraBody tierraBody = TierraBody(tiledBody: tiledObjectTierra,
+          scales: Vector2(wScale,hScale));
+      //tierraBody.onBeginContact=InicioContactosDelJuego;
+      add(tierraBody);
+    }
 
     _ember = EmberPlayer(
       position: Vector2(100, canvasSize.y - 150),
