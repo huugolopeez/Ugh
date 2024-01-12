@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:flame/game.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
@@ -16,8 +14,8 @@ import '../players/JetPlayer.dart';
 class IughGame extends Forge2DGame with
   HasKeyboardHandlerComponents, HasCollisionDetection {
 
-  late EmberPlayer _ember;
-  late JetPlayer _jet;
+  late EmberPlayerBody _ember;
+  late JetPlayerBody _jet;
   late final CameraComponent cameraComponent;
   late TiledComponent mapComponent;
 
@@ -55,14 +53,18 @@ class IughGame extends Forge2DGame with
       add(tierraBody);
     }
 
-    _ember = EmberPlayer(
-      position: Vector2(100, canvasSize.y - 150),
+    _ember = EmberPlayerBody(
+        initialPosition: Vector2(128, canvasSize.y - 350),
+        iTipo: EmberPlayerBody.I_PLAYER_TANYA,
+        tamano: Vector2(32,32)
     );
 
     world.add(_ember);
 
-    _jet = JetPlayer(
-      position: Vector2(200, canvasSize.y - 150),
+    _jet = JetPlayerBody(
+        initialPosition: Vector2(128, canvasSize.y - 350),
+        iTipo: EmberPlayerBody.I_PLAYER_TANYA,
+        tamano: Vector2(32,32)
     );
 
     world.add(_jet);
