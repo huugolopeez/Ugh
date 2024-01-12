@@ -3,9 +3,11 @@ import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
+import '../bodies/GotaBody.dart';
 import '../bodies/TierraBody.dart';
 import '../configs/config.dart';
 import '../players/EmberPlayer.dart';
@@ -44,7 +46,17 @@ class IughGame extends Forge2DGame with
     mapComponent=await TiledComponent.load('mapa1.tmx', Vector2(32*wScale,32*hScale));
     world.add(mapComponent);
 
-    ObjectGroup? tierras=mapComponent.tileMap.getLayer<ObjectGroup>("tierra");
+    ObjectGroup? gotas = mapComponent.tileMap.getLayer<ObjectGroup>("gotas");
+
+    for(final gota in gotas!.objects){
+
+      GotaBody gotaBody = GotaBody(posXY: Vector2(gota.x,gota.y),
+          tamWH: Vector2(64*wScale,64*hScale));
+      gotaBody.onBeginContact = InicioContactosDelJuego;
+      add(gotaBody);
+    }
+
+    ObjectGroup? tierras = mapComponent.tileMap.getLayer<ObjectGroup>("tierra");
 
     for(final tiledObjectTierra in tierras!.objects){
       TierraBody tierraBody = TierraBody(tiledBody: tiledObjectTierra,
@@ -72,5 +84,25 @@ class IughGame extends Forge2DGame with
   @override
   Color backgroundColor() {
     return const Color.fromRGBO(102, 178, 255, 1.0);
+  }
+
+  void InicioContactosDelJuego(Object objeto, Contact contact){
+    if(objeto is GotaBody){
+      //print("ES CONTACTO DE GOTABODY");
+      //objeto.removeFromParent();
+    }
+    else if(objeto is EmberPlayerBody){
+      print("ES CONTACTO DE EMBERBODY");
+      _ember.iVidas--;
+      if(_ember.iVidas == 0){
+        _ember.removeFromParent();
+      }
+    } else if(objeto is JetPlayerBody){
+      print("ES CONTACTO DE EMBERBODY");
+      _jet.iVidas--;
+      if(_jet.iVidas == 0){
+        _jet.removeFromParent();
+      }
+    }
   }
 }
