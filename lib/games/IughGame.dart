@@ -3,14 +3,16 @@ import 'dart:ui';
 
 import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame_forge2d/forge2d_game.dart';
 
 import '../players/EmberPlayer.dart';
 
-class IughGame extends FlameGame {
+class IughGame extends Forge2DGame with
+  HasKeyboardHandlerComponents, HasCollisionDetection {
 
-  late EmberPlayer _ember;
-  final world = World();
+  late EmberPlayer _ember, _jet;
   late final CameraComponent cameraComponent;
 
   @override
