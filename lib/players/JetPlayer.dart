@@ -5,7 +5,7 @@ class JetPlayer extends SpriteAnimationComponent
     with HasGameRef<IughGame> {
   JetPlayer({
     required super.position,
-  }) : super(size: Vector2.all(64), anchor: Anchor.center);
+  }) : super(size: Vector2.all(32), anchor: Anchor.center);
 
   @override
   void onLoad() {

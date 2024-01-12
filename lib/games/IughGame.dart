@@ -9,6 +9,7 @@ import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
 import '../bodies/TierraBody.dart';
+import '../configs/config.dart';
 import '../players/EmberPlayer.dart';
 import '../players/JetPlayer.dart';
 
@@ -35,6 +36,10 @@ class IughGame extends Forge2DGame with
       ]);
 
     cameraComponent = CameraComponent(world: world);
+
+    wScale = size.x/gameWidth;
+    hScale = size.y/gameHeight;
+
     cameraComponent.viewfinder.anchor = Anchor.topLeft;
     addAll([cameraComponent, world]);
 
